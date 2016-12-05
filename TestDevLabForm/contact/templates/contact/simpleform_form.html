@@ -1,0 +1,56 @@
+{% extends 'contact/base.html' %}
+{% block title %}Contact us{% endblock %}
+{% block body %}
+        <script>
+        $.fn.serializeObject = function()
+{
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function() {
+        if (o[this.name] !== undefined) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
+};
+
+$(function() {
+    $( "#json-submit" ).click(function() {
+        $('#result').text(JSON.stringify($('form').serializeObject()));
+        return false;
+    });
+});
+    </script>
+<div class="container-fluid">
+
+    <div class="row">
+
+        <div class="col-sm12-col-md-7">
+            <div class="panel panel-default">
+                <div class="panel-body">
+
+                    <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% include 'contact/form-template.html' %}
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" id="normal-submit" class="btn btn-success">Submit Data</button>
+                                <button id="json-submit" class="btn btn-success">Submit JSON</button>
+                            </div>
+                        </div>
+                    </form>
+JSON
+<pre id="result">
+
+</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
